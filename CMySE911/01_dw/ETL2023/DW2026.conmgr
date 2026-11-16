@@ -1,0 +1,8 @@
+﻿<?xml version="1.0"?>
+<DTS:ConnectionManager xmlns:DTS="www.microsoft.com/SqlServer/Dts" DTS:ObjectName="DW2026.sa" DTS:DTSID="{0D026C3F-CC12-4EC2-961E-228742894E07}" DTS:CreationName="OLEDB">
+  <DTS:ObjectData>
+    <DTS:ConnectionManager DTS:ConnectRetryCount="1" DTS:ConnectRetryInterval="5" DTS:ConnectionString="Data Source={SERVIDOR};User ID={USUARIO};Initial Catalog=DW2026;Provider=MSOLEDBSQL;Persist Security Info=True;Application Name=SSIS-ETL2026;Auto Translate=False;Encrypt=Optional;TrustServerCertificate=True;">
+      
+    </DTS:ConnectionManager>
+  </DTS:ObjectData>
+</DTS:ConnectionManager>

@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<DTS:ConnectionManager xmlns:DTS="www.microsoft.com/SqlServer/Dts" DTS:ObjectName="CMySE911.sa1" DTS:DTSID="{977B6E5C-0F13-411D-A285-297DFAC308EC}" DTS:CreationName="OLEDB">
+  <DTS:ObjectData>
+    <DTS:ConnectionManager DTS:ConnectRetryCount="1" DTS:ConnectRetryInterval="5" DTS:ConnectionString="Data Source={SERVIDOR};User ID={USUARIO};Initial Catalog=CMySE911;Provider=MSOLEDBSQL;Persist Security Info=True;Application Name=SSIS-ETL2026;Auto Translate=False;Encrypt=Optional;TrustServerCertificate=True;">
+      
+    </DTS:ConnectionManager>
+  </DTS:ObjectData>
+</DTS:ConnectionManager>

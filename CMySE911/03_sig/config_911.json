@@ -1,0 +1,70 @@
+{
+  "_comentario": "Configuracion del pipeline CMySE 911. Para un lote nuevo se agrega un elemento en 'lotes' (y, si la estructura del origen cambio, un bloque de mapeo en mapeos_esquema.json). Los parametros de analisis se mantienen en las claves de siempre.",
+
+  "crs_destino": 5345,
+  "_crs_destino": "POSGAR 2007 / Argentina 3 (faja 3 Gauss-Kruger). Area de operacion: Jujuy.",
+
+  "mapeo_por_defecto": "vg_2018_2023",
+
+  "_lotes": "Unidad de ingesta incremental. Cada lote tiene su mapeo y su periodo esperado; se pueden agregar 2024, 2025 y siguientes sin tocar el codigo. 'fuentes' es [ruta, tabla/capa, ur_origen].",
+  "lotes": [
+    {
+      "lote_id": "vg_2022",
+      "descripcion": "Corte 2022 de la base VG - linea base del analisis",
+      "mapeo": "vg_2018_2023",
+      "crs_origen": 4326,
+      "periodo_esperado": ["2022-01-01", "2022-12-31"],
+      "estado": "cargado",
+      "fuentes": [
+        ["C:\\Users\\{USUARIO}\\Documents\\InterseccionU1.gpkg", "interseccin", "UR1"],
+        ["C:\\Users\\{USUARIO}\\Documents\\InterseccionU7.gpkg", "interseccinU7", "UR7"],
+        ["C:\\Users\\{USUARIO}\\Documents\\InterseccionU8.gpkg", "interseccinU8", "UR8"]
+      ]
+    }
+  ],
+
+  "_lotes_futuros_ejemplo": "Cuando llegue 2024: duplicar el bloque cambiando lote_id a 'cmyse_2024', mapeo a 'cmyse_v2', periodo_esperado a ['2024-01-01','2024-12-31'] y las fuentes. El upsert agrega lo nuevo y actualiza lo que cambio; no duplica.",
+
+  "_compatibilidad": "La clave 'incidentes' se mantiene por compatibilidad con la version anterior del pipeline. Si existe 'lotes', tiene prioridad.",
+  "incidentes": [
+    ["C:\\Users\\{USUARIO}\\Documents\\InterseccionU1.gpkg", "interseccin",   "UR1"],
+    ["C:\\Users\\{USUARIO}\\Documents\\InterseccionU7.gpkg", "interseccinU7", "UR7"],
+    ["C:\\Users\\{USUARIO}\\Documents\\InterseccionU8.gpkg", "interseccinU8", "UR8"]
+  ],
+
+  "carpeta_datos": "C:\\Users\\{USUARIO}\\Documents",
+  "carpeta_kml": "C:\\Users\\{USUARIO}\\Documents\\KML-QGIS",
+
+  "jurisdicciones": [
+    ["C:\\Users\\{USUARIO}\\Documents\\KML-QGIS\\Jur_UR1.kml", "UURR1", "UR1"],
+    ["C:\\Users\\{USUARIO}\\Documents\\KML-QGIS\\Jur_UR7.kml", "UURR7", "UR7"],
+    ["C:\\Users\\{USUARIO}\\Documents\\KML-QGIS\\Jur_UR8.kml", "UR8",   "UR8"]
+  ],
+
+  "puntos_operativos": [
+    ["C:\\Users\\{USUARIO}\\Documents\\KML-QGIS\\UR1.kml", "UR1",         "UR1"],
+    ["C:\\Users\\{USUARIO}\\Documents\\KML-QGIS\\UR7.kml", "UR7",         "UR7"],
+    ["C:\\Users\\{USUARIO}\\Documents\\KML-QGIS\\UR8.kml", "UU. RR. 8",   "UR8"]
+  ],
+
+  "zonas_cardinales": [
+    "C:\\Users\\{USUARIO}\\Documents\\KML-QGIS\\Cardinal Centro-Norte.kml",
+    "C:\\Users\\{USUARIO}\\Documents\\KML-QGIS\\Cardinal Este.kml",
+    "C:\\Users\\{USUARIO}\\Documents\\KML-QGIS\\Cardinal Oeste.kml",
+    "C:\\Users\\{USUARIO}\\Documents\\KML-QGIS\\Cardinal Sur.kml"
+  ],
+
+  "bbox_control": [-67.0, -25.0, -64.0, -23.0],
+
+  "_parametros_analisis": "Unidades del CRS proyectado = metros. dbscan_eps_m=150 por decision metodologica: el barrido de sensibilidad (06_sensibilidad.py) mostro que con 250 m el nucleo urbano se fusiona en un solo cluster de 4085 incidentes, lo que es un ARTEFACTO DE PARAMETRO y no un hallazgo del fenomeno. Con 150 m el mismo nucleo se resuelve en 47 clusters y el mayor concentra el 42%. Para micro-focos usar 100-150 m; con 300 m o mas el cluster mayor se traga casi todos los datos.",
+  "kde_radio_m": 500,
+  "kde_pixel_m": 50,
+  "dbscan_eps_m": 150,
+  "dbscan_min_pts": 8,
+  "kmeans_k": 12,
+  "concave_alpha": 0.35,
+  "umbral_brecha_recursos_m": 2000,
+
+  "anios_analisis": [],
+  "_anios_analisis": "Vacio = analizar todos los anios presentes. Ejemplo para un periodo: [2022, 2024]. Cada anio presente en los datos se puede analizar por separado para comparar."
+}

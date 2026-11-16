@@ -1,0 +1,67 @@
+{
+  "_descripcion": "Mapeo declarativo ORIGEN -> ESQUEMA CANONICO. Cuando la base del CMySE 911 cambie de estructura, se agrega un bloque nuevo en 'mapeos' y se referencia desde el lote correspondiente en config_911.json. NO hay que tocar el codigo Python: eso es lo que permite 'recibir la nueva estructura' sin romper el pipeline.",
+  "version_esquema_canonico": 2,
+
+  "_gravedad_por_color": "CODIGO_COLOR es el nivel de prioridad del incidente (confirmado por el area). Se mantiene como etiqueta derivada y variable de validacion, NO como variable predictora: esta casi determinada por el clasificador.",
+  "gravedad_por_color": {
+    "V": { "nivel": "BAJA", "orden": 1, "color": "Verde" },
+    "A": { "nivel": "MEDIA", "orden": 2, "color": "Amarillo" },
+    "R": { "nivel": "ALTA", "orden": 3, "color": "Rojo" }
+  },
+
+  "esquema_canonico": {
+    "id_incidente": "TEXT 32 — clave de negocio estable (sha1 de la clave natural del lote)",
+    "fecha": "DATE ISO — fecha del evento",
+    "anio": "INTEGER",
+    "mes": "INTEGER",
+    "clasificador": "TEXT — categoria del incidente (es la ETIQUETA, no un modelo)",
+    "codigo_color": "TEXT — codigo de prioridad original (V/A/R)",
+    "nivel_gravedad": "TEXT — BAJA/MEDIA/ALTA derivado de codigo_color",
+    "zona": "TEXT",
+    "cantidad_llamadas": "INTEGER — se conserva por compatibilidad; en el lote 2022 es constante 1 y por lo tanto NO informativa",
+    "latitud": "REAL — WGS84",
+    "longitud": "REAL — WGS84",
+    "x_posgar": "REAL — EPSG:5345",
+    "y_posgar": "REAL — EPSG:5345",
+    "ur_origen": "TEXT",
+    "punto_texto": "TEXT — campo PUNTO original, se conserva para auditoria",
+    "lote_id": "TEXT — lote que origino el registro",
+    "archivo_origen": "TEXT",
+    "fecha_carga": "TEXT ISO — momento de ingesta"
+  },
+
+  "mapeos": {
+    "vg_2018_2023": {
+      "descripcion": "Estructura original de la base VG, la que se uso en el corte 2022. OBSOLETA: la base original sufrio cambios estructurales y no contiene 2024-2025.",
+      "estado": "historico",
+      "crs_origen": 4326,
+      "columnas": {
+        "CODIGO_COLOR": "codigo_color",
+        "CLASIFICADOR": "clasificador",
+        "ZONA": "zona",
+        "CANTIDAD_LLAMADAS": "cantidad_llamadas",
+        "LATITUD": "latitud",
+        "LONGITUD": "longitud",
+        "FECHA": "fecha",
+        "PUNTO": "punto_texto"
+      },
+      "clave_negocio": ["latitud", "longitud", "fecha", "clasificador"],
+      "columnas_obligatorias": ["latitud", "longitud", "fecha", "clasificador"]
+    },
+
+    "cmyse_v2": {
+      "descripcion": "Estructura NUEVA de la base del CMySE 911. PENDIENTE de completar: falta el diccionario de datos o una muestra con los nombres y tipos de columna reales.",
+      "estado": "pendiente",
+      "crs_origen": 4326,
+      "columnas": {},
+      "clave_negocio": [],
+      "columnas_obligatorias": ["latitud", "longitud", "fecha"],
+      "_instrucciones": [
+        "1. Copiar aca el mapeo: NOMBRE_EN_LA_BASE_NUEVA -> nombre_canonico.",
+        "2. Definir 'clave_negocio': los campos canonicos que identifican un incidente de forma unica y estable (por ejemplo id_incidente si la base nueva lo trae).",
+        "3. Ejecutar 08_verificar_mapeo.py sobre una muestra ANTES de cargar: informa columnas sin mapear, faltantes y cambios de tipo.",
+        "4. Si la gravedad cambia de codigos, actualizar 'gravedad_por_color'."
+      ]
+    }
+  }
+}
